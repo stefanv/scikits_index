@@ -2,10 +2,6 @@
 
 from __future__ import division
 
-from google.appengine.api import users, urlfetch, memcache, mail
-from google.appengine.ext import webapp, db
-from google.appengine.api import users
-
 from tools import *
 
 import templates
@@ -494,6 +490,15 @@ class AboutPage(Page):
 		self.write(get_template("about") % locals())
 		self.print_footer()
 
+class DebugPage(Page):
+	name = "debug"
+	def get(self):
+		self.print_header()
+		self.print_menu()
+		server = xmlrpclib.ServerProxy('http://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
+		result = server.package_releases('roundup')
+		self.write(result)
+		self.print_footer()
 
 application = webapp.WSGIApplication([
 	('/', MainPage),
@@ -506,6 +511,7 @@ application = webapp.WSGIApplication([
 	#~ ('/recent_changes', RecentChangesPage),
 	('/search', SearchPage),
 	('/admin', AdminPage),
+	('/debug', DebugPage),
 
 	('/(.+)', PackageInfoPage),
 	], debug=True)
