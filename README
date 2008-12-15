@@ -1,0 +1,11 @@
+You will need to have the Google App Engine installed to do anything useful.
+
+The first time you load the package listing things might be a bit slow while package info is retrieved.
+You might even experience the following errors depending on your internet speed:
+    DownloadError: ApplicationError: 2 timed out
+If this keeps happening, check that your is http_proxy is set.
+
+If you find a bug, let me know and I'l fix it.
+
+Janto Dreijer
+jantod@gmail.com
