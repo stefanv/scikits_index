@@ -242,17 +242,21 @@ People: {{ people }} <br />
 You can download the latest distribution from PyPI here: <a href="http://pypi.python.org/pypi/{{ name }}">http://pypi.python.org/pypi/{{ name }}</a>
 </p>
 
-<h4>Easy Install</h4>
+<h4>Using pip</h4>
 <p>
-Install the <a href="http://peak.telecommunity.com/DevCenter/EasyInstall">Easy Install</a> tools. Afterwards you can install {{ name }} from the terminal by executing:
-<pre>sudo easy_install {{ pypi_name }}</pre>
+You can install {{ name }} for yourself from the terminal by running:
+<pre>pip install --user {{ pypi_name }}</pre>
 </p>
 
 <p>
-If you prefer to do a local installation, specify an installation prefix:
-<pre>easy_install --prefix=${HOME} {{ pypi_name }}</pre>
-and ensure that your <code>PYTHONPATH</code> is up to date, e.g.:
-<pre>export PYTHONPATH=$PYTHONPATH:${HOME}/lib/python2.5/site-packages</pre>
+If you want to install it for all users on your machine, do:
+<pre>pip install {{ pypi_name }}</pre>
+On Linux, do <tt>sudo pip install {{ pypi_name }}</tt>.
+</p>
+
+<p>
+If you don't yet have the <a href="https://pip.pypa.io/">pip</a> tool, you can get it following
+<a href="https://pip.pypa.io/en/latest/installing.html">these instructions</a>.
 </p>
 {% endif %}
 
