@@ -177,7 +177,7 @@ class MainPage(Page):
 			<html><body>
 			We are experiencing some technical difficulties.
 			<br />In the meantime have a look at
-			<a href="http://pypi.python.org/pypi?:action=search&term=scikit&submit=search">PyPI's scikit listing</a>
+			<a href="https://pypi.python.org/pypi?:action=search&term=scikit&submit=search">PyPI's scikit listing</a>
 			</body></html>
 			""")
 			return
@@ -299,7 +299,7 @@ class Package(object):
 		package_news_items = []
 		checked_urls = []
 		for dist in ["2.5", "2.6", "2.7", "3.0", "any", "source"]: # check various distributions XXX hardcoding versions = yucky
-			url = "http://pypi.python.org/packages/%(dist)s/%(first_char)s/%(package_name)s/" % locals()
+			url = "https://pypi.python.org/packages/%(dist)s/%(first_char)s/%(package_name)s/" % locals()
 			checked_urls.append(url) # remember for forcing fetch
 			items = fetch_links_with_dates(url, cache_duration=PACKAGE_NEWS_CACHE_DURATION)
 			if items is None:
@@ -322,7 +322,7 @@ class Package(object):
 			from_pypi_search = 1
 			if from_pypi_search:
 				logger.info("loading packages from PyPI")
-				server = xmlrpclib.ServerProxy('http://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
+				server = xmlrpclib.ServerProxy('https://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
 				results = server.search(dict(name="scikit"))
 				for package_name in set(result["name"] for result in results): # unique names, pypi contains duplicate names
 
@@ -360,7 +360,7 @@ class Package(object):
 		#XXX xmlrpc call truncated?
 		return
 
-		server = xmlrpclib.ServerProxy('http://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
+		server = xmlrpclib.ServerProxy('https://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
 		release_versions = server.package_releases(self.name)
 		python_versions = []
 		for release_version in sorted(release_versions, reverse=True):
@@ -374,7 +374,7 @@ class Package(object):
 		return
 
 		text = []
-		server = xmlrpclib.ServerProxy('http://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
+		server = xmlrpclib.ServerProxy('https://pypi.python.org/pypi', transport=GoogleXMLRPCTransport())
 		versions = server.package_releases(self.name)
 		for version in sorted(versions, reverse=True):
 			text.append("<table>")
@@ -412,7 +412,7 @@ class Package(object):
 			people="",
 			)
 		doap_result = get_url(
-			"http://pypi.python.org/pypi?:action=doap&name=%s" % self.name,
+			"https://pypi.python.org/pypi?:action=doap&name=%s" % self.name,
 			force_fetch=force_fetch,
 			cache_duration=PACKAGE_INFO_CACHE_DURATION,
 			)
@@ -450,7 +450,7 @@ class Package(object):
 			d["people"] = ", ".join(d["people"])
 			d["pypi_name"] = d["name"]
 
-			d["download_url"] = d.get("download-page", "") or ("http://pypi.python.org/pypi/%(name)s" % d)
+			d["download_url"] = d.get("download-page", "") or ("https://pypi.python.org/pypi/%(name)s" % d)
 
 		d["short_name"] = d["name"].split(".")[-1]
 
