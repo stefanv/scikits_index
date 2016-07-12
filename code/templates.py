@@ -9,6 +9,10 @@ So the way of currenty doing things:
 
 - Janto
 
+Should we consider grabbing them from a Git repo?
+
+- Stefan
+
 """
 
 names = [
@@ -56,14 +60,14 @@ header_template = """
 <div class="sphinxsidebar">
 <div class="sphinxsidebarwrapper">
 
-	{{ admin_sidebar_html }}
+	{{ admin_sidebar_html|safe }}
 
-	{{ editor_sidebar_html }}
+	{{ editor_sidebar_html|safe }}
 
-	{{ newest_packages_html }}
+	{{ newest_packages_html|safe }}
 
 	<h3>Quick search</h3>
-	{{ search_box_html }}
+	{{ search_box_html|safe }}
 
 </div>
 </div>
@@ -89,7 +93,7 @@ footer_template = """
 
 <div class="footer">
 See the <a href="http://bitbucket.org/janto/scikits_index/">source</a>.
-Created page in {{ load_time }} seconds. {{login_logout_html}}
+Created page in {{ load_time }} seconds. {{login_logout_html|safe}}
 <br />
 Designed by <a href="http://janto.blogspot.com/">Janto Dreijer</a>.
 Appearance based on <a href="http://sphinx.pocoo.org/">Sphinx</a> and <a href="http://www.vistaicons.com/icon/i160s0/phuzion_icon_pack.htm">Phuzion icons</a>.
@@ -101,7 +105,7 @@ $(document).ready( function(){
 });
 </script>
 
-{{ google_analytics }}
+{{ google_analytics|safe }}
 
 <!--
 The following page request is vital to the working of the site.
@@ -230,7 +234,7 @@ People: {{ people }} <br />
 {% if escaped_description %}
 <h3>Description</h3>
 <div style="background-color:#f0f0f0; padding:5px" class="rounded">
-{{ escaped_description }}
+{{ escaped_description|safe }}
 </div>
 {% endif %}
 

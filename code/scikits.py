@@ -5,6 +5,7 @@ from __future__ import division
 from tools import *
 
 import templates
+from django import template as django_template
 
 """
 
@@ -29,13 +30,13 @@ class Page(webapp.RequestHandler):
 
 	name = ""
 
-	def __init__(self):
+	def __init__(self, request, response):
+		webapp.RequestHandler.__init__(self, request, response)
 		self.init_time = time.time()
-		webapp.RequestHandler.__init__(self)
 		self.logger = logging.getLogger(self.name)
 
 	def write(self, text):
-		self.response.out.write(text)
+		self.response.write(text)
 
 	def print_header(self, title=None):
 		template_values = {}
@@ -334,7 +335,7 @@ class Package(object):
 			from_repo = 1
 			if from_repo:
 				for repo_base_url in [
-						"http://svn.scipy.org/svn/scikits/trunk",
+						#"http://svn.scipy.org/svn/scikits/trunk",
 						]:
 					logger.info("loading packages from repo %s" % repo_base_url)
 					for repo_url in fetch_dir_links(repo_base_url):
@@ -567,14 +568,15 @@ def get_template(name):
 	assert name, name
 	template = DBPageTemplate.all().filter("name =", name).get()
 	if template is not None:
-		return template.text
+		tmpl = template.text
 	try:
-		return getattr(templates, name+"_template").strip()
+		tmpl = getattr(templates, name+"_template").strip()
 	except AttributeError:
 		raise NoSuchTemplateException(name)
+	return django_template.Template(tmpl)
 
 def render_template(template_name, d):
-	return templating.Template(get_template(template_name)).render(templating.Context(d))
+        return get_template(template_name).render(django_template.Context(d))
 
 class DBPageTemplate(db.Model):
 	name = db.StringProperty(required=True)
@@ -902,7 +904,7 @@ class RSSFeedPage(Page):
 
 		assert Cache.set(key=cache_key, value=result, duration=PACKAGE_LISTING_CACHE_DURATION), cache_key
 
-application = webapp.WSGIApplication([
+app = webapp.WSGIApplication([
 	('/', MainPage),
 	('/worker', WorkerPage),
 
@@ -923,8 +925,8 @@ application = webapp.WSGIApplication([
 	('/(.+)', PackageInfoPage),
 	], debug=True)
 
-def main():
-	wsgiref.handlers.CGIHandler().run(application)
+import webapp2
+from webapp2_extras import config as webapp2_config
+config = {}
+app.config = webapp2_config.Config(config)
 
-if __name__ == '__main__':
-	main()

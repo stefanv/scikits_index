@@ -1,7 +1,12 @@
 application: scikits-hrd
 version: 1
-runtime: python
+runtime: python27
+threadsafe: no
 api_version: 1
+
+libraries:
+- name: django
+  version: latest
 
 handlers:
 
@@ -17,4 +22,8 @@ handlers:
   upload: static/robots\.txt
 
 - url: .*
-  script: scikits.py
+  script: scikits.app
+
+env_variables:
+    DJANGO_SETTINGS_MODULE: 'settings'
+

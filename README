@@ -1,4 +1,5 @@
 You will need to have the Google App Engine (GAE) installed to do anything useful.
+(S: I think you may need to unpack it in the root of this repository)
 
 About the SciKits Index
 ===============
